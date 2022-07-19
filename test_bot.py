@@ -20,7 +20,7 @@ from collections import namedtuple
 from webdriver_manager.chrome import ChromeDriverManager
 
 "Load Python Standard Modules"
-import os, time, random, json
+import os, time, random, json, platform
 
 "Load BeautifulSoup Module"
 from bs4 import BeautifulSoup
@@ -55,39 +55,19 @@ driver.maximize_window()
 driver.get("https://www.tiktok.com")
 # login = soup.find("button", {"data-e2e": "top-login-button"})
 driver.find_element(By.XPATH,".//*[@data-e2e='top-login-button']").click()
-print('FINISH YOUR LOGIN ON THE BROWSER')
-input('\n\n\nAFTER PRESS ANY KEY TO CONTINUE...')
+
+os.system('clear')
+print('Follow the bellow instruction\n')
+print('  1. Do not close this window')
+print('  2. Finish your TikTok login on your browser screen')
+input('  4. After that come back to this screen and press any key...')
+
+time.sleep(2)
+
+keyword = input("\nEnter keyword to search and press enter to continue: ")
 # driver.find_element(By.XPATH,".//*[contains(text(),'Use phone / email / username')]").click()
 # driver.find_element(By.XPATH,".//*[contains(text(),'Log in with email or username')]").click()
 
-
-
-
-# Log in with email or username
-
-
-# driver.get("https://www.tiktok.com/@jakewarden")
-# pageSource = driver.page_source
-# soup = BeautifulSoup(pageSource, 'html.parser')
-#
-# user = soup.find("h2", {"class" : "tiktok-b7g450-H2ShareTitle ekmpd5l5"}).text.split()[0]
-# name = soup.find("h1", {"class" : "tiktok-qpyus6-H1ShareSubTitle ekmpd5l6"}).text
-# following = soup.find("strong", {"title" : "Following"}).text
-# likes = soup.find("strong", {"title" : "Likes"}).text
-# followers = soup.find("strong", {"title" : "Followers"}).text
-# #
-# #
-# #
-# # driver.get("https://www.tiktok.com/@jakewarden/video/7121817545312619818?is_copy_url=1&is_from_webapp=v1")
-# # pageSource = driver.page_source
-# # soup = BeautifulSoup(pageSource, 'html.parser')
-# # postcontent = soup.find("div", {"data-e2e" : "browse-video-desc"}).text
-# # postcomments = soup.find("p", {"class" : "tiktok-1gseipw-PCommentTitle e1a7v7ak1"}).text
-#
-# def userInfo():
-#     driver.get("https://www.tiktok.com/@jakewarden")
-#     pageSource = driver.page_source
-#     soup = BeautifulSoup(pageSource, 'html.parser')
 
 
 """
@@ -95,7 +75,7 @@ input('\n\n\nAFTER PRESS ANY KEY TO CONTINUE...')
 GET Search Results information
 
 """
-driver.get("https://www.tiktok.com/search?q=bolsonaro")
+driver.get(f'https://www.tiktok.com/search?q={keyword}')
 
 delay = 3 # seconds
 try:
