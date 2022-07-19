@@ -20,7 +20,7 @@ from collections import namedtuple
 from webdriver_manager.chrome import ChromeDriverManager
 
 "Load Python Standard Modules"
-import os, platform, sys, math, datetime, uuid, time, random, json
+import os, time, random, json
 
 "Load BeautifulSoup Module"
 from bs4 import BeautifulSoup
@@ -56,7 +56,7 @@ driver.get("https://www.tiktok.com")
 # login = soup.find("button", {"data-e2e": "top-login-button"})
 driver.find_element(By.XPATH,".//*[@data-e2e='top-login-button']").click()
 print('FINISH YOUR LOGIN ON THE BROWSER')
-input('AFTER PRESS ANY KEY TO CONTINUE...')
+input('\n\n\nAFTER PRESS ANY KEY TO CONTINUE...')
 # driver.find_element(By.XPATH,".//*[contains(text(),'Use phone / email / username')]").click()
 # driver.find_element(By.XPATH,".//*[contains(text(),'Log in with email or username')]").click()
 
