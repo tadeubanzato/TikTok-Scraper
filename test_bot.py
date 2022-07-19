@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 "Load Selenium for pupeteering"
 from selenium import webdriver
