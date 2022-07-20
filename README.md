@@ -49,6 +49,5 @@ As a result the script will save a Json file with the following Swagger:
 ```
 
 # Next Iterations will probably be
-- [x] #739
-- [ ] https://github.com/octo-org/octo-repo/issues/740
-- [ ] Add delight to the experience when all tasks are complete :tada:
+- [x] Optimize script
+- [ ] Introduce concurrent futures and parallel processing
