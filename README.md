@@ -49,8 +49,6 @@ As a result the script will save a Json file with the following Swagger:
 ```
 
 # Next Iterations will probably be
-[] Improve overall performance and script
-[] Add Concurrent processing
-[] Add Pandas and CSV capabilities
-
-[x]
+- [x] #739
+- [ ] https://github.com/octo-org/octo-repo/issues/740
+- [ ] Add delight to the experience when all tasks are complete :tada:
