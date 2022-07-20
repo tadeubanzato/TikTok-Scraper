@@ -50,4 +50,5 @@ As a result the script will save a Json file with the following Swagger:
 
 # Next Iterations will probably be
 - [ ] Optimize script
+- [ ] Add Pandas and overall CSV export support
 - [ ] Introduce concurrent futures and parallel processing
