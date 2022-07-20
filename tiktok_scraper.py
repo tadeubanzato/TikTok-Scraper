@@ -110,6 +110,7 @@ def main(driver,keyword):
 
         commDict = {}
         for (User,Link,Name,Content,Likes,Replies) in zip(commentUser,commentUserLink,commentUserName,commentContent,commentLikes,commentReplies):
+            print(f'     Getting user {User} public information')
             driver.get(Link)
             pageSource = driver.page_source
             soup = BeautifulSoup(pageSource, 'html.parser')
