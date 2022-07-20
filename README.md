@@ -12,7 +12,8 @@ Since TikTok API is in constant change and I'm having issues using some of the T
 ## Install Chromedriver
 For Mac users, the Chromedriver extension is executed within the script no additional installation is needed.
 For Linux and Windows users, you will need to install the Chromedriver - Reference here: https://www.makeuseof.com/how-to-install-selenium-webdriver-on-any-computer-with-python/
-> Additional reference for Windows users: http://www.learningaboutelectronics.com/Articles/How-to-install-chromedriver-Python-windows.php
+> Additional reference for Windows users:
+http://www.learningaboutelectronics.com/Articles/How-to-install-chromedriver-Python-windows.php
 
 ### Linux users
 Make sure to update the Chromedriver path on code line:
