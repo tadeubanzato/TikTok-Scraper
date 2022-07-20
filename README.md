@@ -47,3 +47,8 @@ As a result the script will save a Json file with the following Swagger:
             }
 }
 ```
+
+# Next Iterations will probably be
+[] Improve overall performance and script
+[] Add Concurrent processing
+[] Add Pandas and CSV capabilities
