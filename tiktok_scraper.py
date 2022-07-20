@@ -140,10 +140,9 @@ if __name__ == '__main__':
     ## Clear screen and instructions on terminal window
     os.system('clear')
     print('Follow the bellow instruction\n')
-    print('  1. Do not close this window')
+    print('  1. Do not close this terminal window')
     print('  2. A browser screen will open with TikTok login screen')
     print('  3. Finish your TikTok login on the new browser screen and come back to this terminal screen')
-    time.sleep(3)
 
     driver = load_driver()
     driver.maximize_window()
@@ -155,7 +154,7 @@ if __name__ == '__main__':
 
     os.system('clear')
     print('\nThe only next step will be to add your search criteria for us to start scraping')
-    keyword = input("Enter keyword to search and press enter: ")
+    keyword = input("Enter keyword or a hashtag to search and press enter: ")
 
     json_object = main(driver,keyword)
 
