@@ -53,4 +53,4 @@ As a result the script will save a Json file with the following Swagger:
 [] Add Concurrent processing
 [] Add Pandas and CSV capabilities
 
-- [ ]
+[x]
