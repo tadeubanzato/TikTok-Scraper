@@ -139,6 +139,6 @@ import json
 json_object = json.dumps(dict, ensure_ascii=False, indent = 4)
 # print(json_object)
 
-jsonFile = open("data.json", "w")
+jsonFile = open(f'data_{keyword}.json', 'w')
 jsonFile.write(json_object)
 jsonFile.close()
