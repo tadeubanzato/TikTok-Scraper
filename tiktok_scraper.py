@@ -94,6 +94,7 @@ def main(driver,keyword):
 
         # url = "https://www.tiktok.com/@bolsonaromessiasjair/video/7120216471208283397"
         driver.get(url)
+        # time.sleep(.5)
         pageSource = driver.page_source
         soup = BeautifulSoup(pageSource, 'html.parser')
         postcontent = soup.find("div", {"data-e2e" : "browse-video-desc"}).text
@@ -118,6 +119,8 @@ def main(driver,keyword):
         for (User,Link,Name,Content,Likes,Replies) in zip(commentUser,commentUserLink,commentUserName,commentContent,commentLikes,commentReplies):
             print(f'     Scraping user {color.blue}{User}{color.endc} public information')
             driver.get(Link)
+            # time.sleep(4)
+
             pageSource = driver.page_source
             soup = BeautifulSoup(pageSource, 'html.parser')
             try:
