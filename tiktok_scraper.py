@@ -65,6 +65,7 @@ def main(driver,keyword):
     else:
         ## Open page results with Keywork as query string
         driver.get(f'https://www.tiktok.com/search?q={keyword}')
+        hashed = False
 
     delay = 3 # seconds
     try:
@@ -116,10 +117,13 @@ def main(driver,keyword):
         # df = pd.DataFrame({'Userlink':Link,'UserName':Name,'UserFollowing':following,'UserFollowers':followers,'UserLikes':likes,'ReplyContent':Content,'Replylikes':Likes,'replies':Replies})
         df_user = pd.DataFrame(columns=['Userlink','originalPost','UserName','UserFollowing','UserFollowers','UserLikes','ReplyContent','Replylikes','replies'])
         df_posts = pd.DataFrame(columns=['posturl','postcontent','commentcounts'])
+
         for (User,Link,Name,Content,Likes,Replies) in zip(commentUser,commentUserLink,commentUserName,commentContent,commentLikes,commentReplies):
             print(f'     Scraping user {color.blue}{User}{color.endc} public information')
+            print(Link)
+            # driver.get('https://www.tiktok.com/@tatianemorais211')
             driver.get(Link)
-            # time.sleep(4)
+            driver.implicitly_wait(.2) # seconds
 
             pageSource = driver.page_source
             soup = BeautifulSoup(pageSource, 'html.parser')
