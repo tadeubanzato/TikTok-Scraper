@@ -24,7 +24,7 @@ driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=optio
 ### Windows users
 Make sure to update the Chromedriver path on code line
 ```python
-driver = webdriver.Chrome(executable_path="<PATH TO CHROMEDRIVER>", options=options)
+driver = webdriver.Chrome(executable_path="PATH_TO_CHROMEDRIVER.exe", options=options)
 ```
 
 ## Results
