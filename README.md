@@ -31,20 +31,20 @@ driver = webdriver.Chrome(executable_path="<PATH TO CHROMEDRIVER>", options=opti
 As a result the script will save a Json file with the following Swagger:
 ```json
 {
-    "7120216471208283397": {
-        "postURL": "https://www.tiktok.com/@bolsonaromessiasjair/video/7120216471208283397",
-        "postcontent": "#jairbolsonaro  #jair  #bolsonaro  #presidente  #anittachallenge  #anitta  #show  #lula  #pt  #dilma  #brasil  #🇧🇷  #liberdade  #internet  #regular  #midia  #jovens  #compartilhe ",
-        "commentsCount": "15.8K comments",
+    "7079374480363048198": {
+        "postURL": "https://www.tiktok.com/@planetmatters/video/7079374480363048198",
+        "postcontent": "Let's clean up the ocean! 💙😊 #plasticpollution  #climatechange  #oceancleanup  #sealover  #foryou  #fypシ ",
+        "commentsCount": "46.8K comments",
         "comments": {
-            "@florysfran": {
-                "Userlink": "https://www.tiktok.com/@florysfran",
-                "UserName": "florysfran ",
-                "UserFollowing": "747",
-                "UserFollowers": "58",
-                "UserLikes": "0",
-                "ReplyContent": "Melhor Presidente do Brasil.",
-                "Replylikes": "4957",
-                "replies": "117"
+            "@planetmatters": {
+                "Userlink": "https://www.tiktok.com/@planetmatters",
+                "UserName": "Planet Matters 🌍 ",
+                "UserFollowing": "1",
+                "UserFollowers": "2.9M",
+                "UserLikes": "29.3M",
+                "ReplyContent": "Thanks for the video @treasurehawaii 🎥💙",
+                "Replylikes": "3",
+                "replies": 0
             }
 }
 ```

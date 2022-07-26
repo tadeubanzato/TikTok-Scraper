@@ -52,7 +52,7 @@ def load_driver():
         return webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=options)
     ## When on linux load LINUX DRIVER
     if 'windows' in platform.system().lower():
-        return webdriver.Chrome(executable_path="<PATH TO CHROMEDRIVER>", options=options)
+        return webdriver.Chrome(executable_path="C:\path\to\chromedriver.exe", options=options)
 
 def main(driver,keyword):
     if '#' in keyword:
@@ -109,6 +109,9 @@ def main(driver,keyword):
                 commentReplies.append(0)
 
         commDict = {}
+        # df = pd.DataFrame({'Userlink':Link,'UserName':Name,'UserFollowing':following,'UserFollowers':followers,'UserLikes':likes,'ReplyContent':Content,'Replylikes':Likes,'replies':Replies})
+        df = pd.DataFrame(columns=['Userlink','UserName','UserFollowing','UserFollowers','UserLikes','ReplyContent','Replylikes','replies'])
+        df_posts = pd.DataFrame(columns=['posturl','postcontent','commentcounts'])
         for (User,Link,Name,Content,Likes,Replies) in zip(commentUser,commentUserLink,commentUserName,commentContent,commentLikes,commentReplies):
             print(f'     Getting user {User} public information')
             driver.get(Link)
@@ -128,8 +131,31 @@ def main(driver,keyword):
                 followers = 0
 
             commDict[User] = {'Userlink':Link,'UserName':Name,'UserFollowing':following,'UserFollowers':followers,'UserLikes':likes,'ReplyContent':Content,'Replylikes':Likes,'replies':Replies}
+            comx = {'Userlink':Link,'postID':url.split('/')[-1],'UserName':Name,'UserFollowing':following,'UserFollowers':followers,'UserLikes':likes,'ReplyContent':Content,'Replylikes':Likes,'replies':Replies}
+            df.loc[len(df.index)] = comx
+            print(df)
+
+
+        if os.path.exists(f'user_list_{keyword}.csv'):
+            dfd = pd.read_csv(f'user_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
+            frames = [df, dfd]
+            df = pd.concat(frames)
+            df.to_csv(f'user_list_{keyword}.csv', encoding='utf-8',index=False)
+        else:
+            df.to_csv(f'user_list_{keyword}.csv', encoding='utf-8',index=False)
 
         dict[url.split('/')[-1]] = {'postURL':url,'postcontent':postcontent,'commentsCount':commentsCount,'comments':commDict}
+
+
+        comx = {'posturl':url,'postcontent':postcontent,'commentcounts':commentsCount}
+        df.loc[len(df.index)] = comx
+        if os.path.exists(f'posts_list_{keyword}.csv'):
+            dfd = pd.read_csv(f'posts_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
+            frames = [df, dfd]
+            df = pd.concat(frames)
+            df.to_csv(f'posts_list_{keyword}.csv', encoding='utf-8',index=False)
+        else:
+            df.to_csv(f'posts_list_{keyword}.csv', encoding='utf-8',index=False)
 
     # json_object = json.dumps(dict, ensure_ascii=False, indent = 4)
     return json.dumps(dict, ensure_ascii=False, indent = 4)
@@ -149,8 +175,14 @@ if __name__ == '__main__':
     driver.get("https://www.tiktok.com")
     ## Selenium clicks on Login Button to open login lightbox
     driver.find_element(By.XPATH,".//*[@data-e2e='top-login-button']").click()
+    driver.find_element(By.XPATH,"//*[contains(text(), 'Use phone / email / username')]").click()
+    driver.find_element(By.XPATH,"//*[contains(text(), 'Log in with email or username')]").click()
+    driver.find_element(By.XPATH,".//*[@name='username']").send_keys("ramonres2022")
+    driver.find_element(By.XPATH,".//*[@type='password']").send_keys("Ramones-2022")
+    driver.find_element(By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']").click()
 
-    print('\n\n  4. This screen is paused so you can finish your login, press any key to continue')
+    print('\n\n  4. Complete Human verification on the browser')
+    print('\n\n  5. This screen is paused so you can finish your login, press any key to continue')
 
     os.system('clear')
     print('\nThe only next step will be to add your search criteria for us to start scraping')

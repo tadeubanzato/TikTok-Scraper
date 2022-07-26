@@ -1,6 +1,7 @@
 # Compiled Object files
 *.o
 *.obj
+*.json
 
 # Compiled Dynamic libraries
 *.so
@@ -22,3 +23,4 @@ docs/
 
 # Code coverage
 *.lst
+*.json
