@@ -24,6 +24,9 @@ import os, time, random, json, platform
 "Load BeautifulSoup Module"
 from bs4 import BeautifulSoup
 
+"Load General Classes"
+from modules.general_classes import *
+
 import requests
 import json
 import pandas as pd
@@ -66,9 +69,9 @@ def main(driver,keyword):
     delay = 3 # seconds
     try:
         myElem = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'IdOfMyElement')))
-        print ("Page is ready!")
+        print(f'{color.yellow}Page is ready!{color.endc}')
     except TimeoutException:
-        print ("Page is ready!")
+        print(f'{color.yellow}Page is ready!{color.endc}')
 
     pageSource = driver.page_source
     soup = BeautifulSoup(pageSource, 'html.parser')
@@ -82,12 +85,12 @@ def main(driver,keyword):
 
     # allVids = videoList.findAll("div", {"class": "tiktok-1soki6-DivItemContainerForSearch e19c29qe9"})
     urls = [vid.find("a")['href'] for vid in allVids]
-    print(f'Found total of {len(urls)} videos on this keyword.\nStart scraping')
+    print(f'\nFound total of {color.red}{len(urls)}{color.endc} videos on this keyword.\nStart scraping')
 
     dict = {}
     commentReplies = []
     for url in urls:
-        print(f'Scraping post ID: {url.split("/")[-1]}')
+        print(f'\n{color.blue}Scraping video post ID:{color.endc} {url.split("/")[-1]}')
 
         # url = "https://www.tiktok.com/@bolsonaromessiasjair/video/7120216471208283397"
         driver.get(url)
@@ -113,7 +116,7 @@ def main(driver,keyword):
         df = pd.DataFrame(columns=['Userlink','UserName','UserFollowing','UserFollowers','UserLikes','ReplyContent','Replylikes','replies'])
         df_posts = pd.DataFrame(columns=['posturl','postcontent','commentcounts'])
         for (User,Link,Name,Content,Likes,Replies) in zip(commentUser,commentUserLink,commentUserName,commentContent,commentLikes,commentReplies):
-            print(f'     Getting user {User} public information')
+            print(f'     Scraping user {color.blue}{User}{color.endc} public information')
             driver.get(Link)
             pageSource = driver.page_source
             soup = BeautifulSoup(pageSource, 'html.parser')
@@ -133,7 +136,7 @@ def main(driver,keyword):
             commDict[User] = {'Userlink':Link,'UserName':Name,'UserFollowing':following,'UserFollowers':followers,'UserLikes':likes,'ReplyContent':Content,'Replylikes':Likes,'replies':Replies}
             comx = {'Userlink':Link,'postID':url.split('/')[-1],'UserName':Name,'UserFollowing':following,'UserFollowers':followers,'UserLikes':likes,'ReplyContent':Content,'Replylikes':Likes,'replies':Replies}
             df.loc[len(df.index)] = comx
-            print(df)
+            # print(df)
 
 
         if os.path.exists(f'user_list_{keyword}.csv'):
@@ -162,16 +165,16 @@ def main(driver,keyword):
 
 
 if __name__ == '__main__':
+    driver = load_driver()
+    driver.maximize_window()
 
     ## Clear screen and instructions on terminal window
     os.system('clear')
-    print('Follow the bellow instruction\n')
+    print(f'{color.green}Follow the bellow instruction{color.endc}\n')
     print('  1. Do not close this terminal window')
     print('  2. A browser screen will open with TikTok login screen')
     print('  3. Finish your TikTok login on the new browser screen and come back to this terminal screen')
 
-    driver = load_driver()
-    driver.maximize_window()
     driver.get("https://www.tiktok.com")
     time.sleep(2)
     ## Selenium clicks on Login Button to open login lightbox
@@ -184,12 +187,12 @@ if __name__ == '__main__':
     driver.find_element(By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']").click()
     time.sleep(.2)
 
-    print('\n\n  4. Complete Human verification on the browser')
-    print('\n\n  5. This screen is paused so you can finish your login, press any key to continue')
+    print('  4. Complete Human verification on the browser')
+    input(f'  5. {color.red}This screen is paused! Finish TikTok human authentication on the browser window{color.endc}')
 
     os.system('clear')
     print('\nThe only next step will be to add your search criteria for us to start scraping')
-    keyword = input("Enter keyword or a hashtag to search and press enter: ")
+    keyword = input(f'{color.green}Enter keyword or a hashtag to search and press enter:{color.endc} ')
 
     json_object = main(driver,keyword)
 
@@ -197,3 +200,6 @@ if __name__ == '__main__':
     jsonFile = open(f'data_{keyword}.json', 'w')
     jsonFile.write(json_object)
     jsonFile.close()
+
+
+print(f'\nTrying {color.yellow}{mais}{color.endc} info from URL: {row.bitly}')
