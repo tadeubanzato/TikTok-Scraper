@@ -134,13 +134,13 @@ def main(driver,keyword):
                 followers = 0
 
             commDict[User] = {'Userlink':Link, 'UserName':Name, 'UserFollowing':following, 'UserFollowers':followers, 'UserLikes':likes, 'ReplyContent':Content, 'Replylikes':Likes, 'replies':Replies}
-            df_user.loc[len(df.index)] = {'Userlink':Link, 'originalPost':url.split('/')[-1], 'UserName':Name, 'UserFollowing':following, 'UserFollowers':followers, 'UserLikes':likes, 'ReplyContent':Content, 'Replylikes':Likes, 'replies':Replies}
+            df_user.loc[len(df_user.index)] = {'Userlink':Link, 'originalPost':url.split('/')[-1], 'UserName':Name, 'UserFollowing':following, 'UserFollowers':followers, 'UserLikes':likes, 'ReplyContent':Content, 'Replylikes':Likes, 'replies':Replies}
             # print(df)
 
         ## BUILD CSV for USERS List
         if os.path.exists(f'results/user_list_{keyword}.csv'):
             saved_df = pd.read_csv(f'results/user_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
-            frames = [df, saved_df]
+            frames = [df_user, saved_df]
             df_final = pd.concat(frames)
             df_final.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8-sig',index=False)
         else:
