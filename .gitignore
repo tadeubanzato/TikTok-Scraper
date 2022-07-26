@@ -1,3 +1,4 @@
 # Code coverage
 *.json
 *.csv
+.DS_Store

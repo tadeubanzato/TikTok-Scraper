@@ -113,7 +113,7 @@ def main(driver,keyword):
 
         commDict = {}
         # df = pd.DataFrame({'Userlink':Link,'UserName':Name,'UserFollowing':following,'UserFollowers':followers,'UserLikes':likes,'ReplyContent':Content,'Replylikes':Likes,'replies':Replies})
-        df = pd.DataFrame(columns=['Userlink','UserName','UserFollowing','UserFollowers','UserLikes','ReplyContent','Replylikes','replies'])
+        df_user = pd.DataFrame(columns=['Userlink','originalPost','UserName','UserFollowing','UserFollowers','UserLikes','ReplyContent','Replylikes','replies'])
         df_posts = pd.DataFrame(columns=['posturl','postcontent','commentcounts'])
         for (User,Link,Name,Content,Likes,Replies) in zip(commentUser,commentUserLink,commentUserName,commentContent,commentLikes,commentReplies):
             print(f'     Scraping user {color.blue}{User}{color.endc} public information')
@@ -133,31 +133,31 @@ def main(driver,keyword):
             except:
                 followers = 0
 
-            commDict[User] = {'Userlink':Link,'UserName':Name,'UserFollowing':following,'UserFollowers':followers,'UserLikes':likes,'ReplyContent':Content,'Replylikes':Likes,'replies':Replies}
-            comx = {'Userlink':Link,'postID':url.split('/')[-1],'UserName':Name,'UserFollowing':following,'UserFollowers':followers,'UserLikes':likes,'ReplyContent':Content,'Replylikes':Likes,'replies':Replies}
-            df.loc[len(df.index)] = comx
+            commDict[User] = {'Userlink':Link, 'UserName':Name, 'UserFollowing':following, 'UserFollowers':followers, 'UserLikes':likes, 'ReplyContent':Content, 'Replylikes':Likes, 'replies':Replies}
+            df_user.loc[len(df.index)] = {'Userlink':Link, 'originalPost':url.split('/')[-1], 'UserName':Name, 'UserFollowing':following, 'UserFollowers':followers, 'UserLikes':likes, 'ReplyContent':Content, 'Replylikes':Likes, 'replies':Replies}
             # print(df)
 
-        if os.path.exists(f'user_list_{keyword}.csv'):
-            dfd = pd.read_csv(f'results/user_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
-            frames = [df, dfd]
-            df = pd.concat(frames)
-            df.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8',index=False)
+        ## BUILD CSV for USERS List
+        if os.path.exists(f'results/user_list_{keyword}.csv'):
+            saved_df = pd.read_csv(f'results/user_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
+            frames = [df, saved_df]
+            df_final = pd.concat(frames)
+            df_final.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8-sig',index=False)
         else:
-            df.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8',index=False)
+            df_user.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8-sig',index=False)
+
 
         dict[url.split('/')[-1]] = {'postURL':url,'postcontent':postcontent,'commentsCount':commentsCount,'comments':commDict}
 
-
-        comx = {'posturl':url,'postcontent':postcontent,'commentcounts':commentsCount}
-        df.loc[len(df.index)] = comx
+        ## BUILD CSV for POSTS List
+        df_posts.loc[len(df_posts.index)] = {'posturl':url,'postcontent':postcontent,'commentcounts':commentsCount}
         if os.path.exists(f'results/posts_list_{keyword}.csv'):
-            dfd = pd.read_csv(f'results/posts_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
-            frames = [df, dfd]
-            df = pd.concat(frames)
-            df.to_csv(f'results/posts_list_{keyword}.csv', encoding='utf-8',index=False)
+            dfdp = pd.read_csv(f'results/posts_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
+            frames = [df_posts, dfdp]
+            dfp = pd.concat(frames)
+            dfp.to_csv(f'results/posts_list_{keyword}.csv', encoding='utf-8-sig',index=False)
         else:
-            df.to_csv(f'results/posts_list_{keyword}.csv', encoding='utf-8',index=False)
+            df_posts.to_csv(f'results/posts_list_{keyword}.csv', encoding='utf-8-sig',index=False)
 
     # json_object = json.dumps(dict, ensure_ascii=False, indent = 4)
     return json.dumps(dict, ensure_ascii=False, indent = 4)
