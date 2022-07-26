@@ -138,27 +138,26 @@ def main(driver,keyword):
             df.loc[len(df.index)] = comx
             # print(df)
 
-
         if os.path.exists(f'user_list_{keyword}.csv'):
-            dfd = pd.read_csv(f'user_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
+            dfd = pd.read_csv(f'results/user_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
             frames = [df, dfd]
             df = pd.concat(frames)
-            df.to_csv(f'user_list_{keyword}.csv', encoding='utf-8',index=False)
+            df.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8',index=False)
         else:
-            df.to_csv(f'user_list_{keyword}.csv', encoding='utf-8',index=False)
+            df.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8',index=False)
 
         dict[url.split('/')[-1]] = {'postURL':url,'postcontent':postcontent,'commentsCount':commentsCount,'comments':commDict}
 
 
         comx = {'posturl':url,'postcontent':postcontent,'commentcounts':commentsCount}
         df.loc[len(df.index)] = comx
-        if os.path.exists(f'posts_list_{keyword}.csv'):
-            dfd = pd.read_csv(f'posts_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
+        if os.path.exists(f'results/posts_list_{keyword}.csv'):
+            dfd = pd.read_csv(f'results/posts_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
             frames = [df, dfd]
             df = pd.concat(frames)
-            df.to_csv(f'posts_list_{keyword}.csv', encoding='utf-8',index=False)
+            df.to_csv(f'results/posts_list_{keyword}.csv', encoding='utf-8',index=False)
         else:
-            df.to_csv(f'posts_list_{keyword}.csv', encoding='utf-8',index=False)
+            df.to_csv(f'results/posts_list_{keyword}.csv', encoding='utf-8',index=False)
 
     # json_object = json.dumps(dict, ensure_ascii=False, indent = 4)
     return json.dumps(dict, ensure_ascii=False, indent = 4)
@@ -197,9 +196,6 @@ if __name__ == '__main__':
     json_object = main(driver,keyword)
 
     ## Save Json File export
-    jsonFile = open(f'data_{keyword}.json', 'w')
+    jsonFile = open(f'results/json/data_{keyword}.json', 'w')
     jsonFile.write(json_object)
     jsonFile.close()
-
-
-print(f'\nTrying {color.yellow}{mais}{color.endc} info from URL: {row.bitly}')
