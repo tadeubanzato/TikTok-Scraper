@@ -85,7 +85,7 @@ def main(driver,keyword):
 
     # allVids = videoList.findAll("div", {"class": "tiktok-1soki6-DivItemContainerForSearch e19c29qe9"})
     urls = [vid.find("a")['href'] for vid in allVids]
-    print(f'\nFound total of {color.red}{len(urls)}{color.endc} videos on this keyword.\nStart scraping')
+    print(f'\nFound total of {color.red}{len(urls)}{color.endc} videos on this keyword.\n{color.green}Start scraping{color.endc}')
 
     dict = {}
     commentReplies = []
