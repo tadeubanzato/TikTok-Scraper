@@ -182,7 +182,7 @@ if __name__ == '__main__':
     driver.find_element(By.XPATH,".//*[@name='username']").send_keys("ramonres2022")
     driver.find_element(By.XPATH,".//*[@type='password']").send_keys("Ramones-2022")
     driver.find_element(By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']").click()
-    time.sleep(.5)
+    time.sleep(.2)
 
     print('\n\n  4. Complete Human verification on the browser')
     print('\n\n  5. This screen is paused so you can finish your login, press any key to continue')
