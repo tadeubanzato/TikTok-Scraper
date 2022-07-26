@@ -120,7 +120,7 @@ def main(driver,keyword):
 
         for (User,Link,Name,Content,Likes,Replies) in zip(commentUser,commentUserLink,commentUserName,commentContent,commentLikes,commentReplies):
             print(f'     Scraping user {color.blue}{User}{color.endc} public information')
-            print(Link)
+
             # driver.get('https://www.tiktok.com/@tatianemorais211')
             driver.get(Link)
             driver.implicitly_wait(.2) # seconds
@@ -171,8 +171,6 @@ def main(driver,keyword):
 
 
 if __name__ == '__main__':
-    driver = load_driver()
-    driver.maximize_window()
 
     ## Clear screen and instructions on terminal window
     os.system('clear')
@@ -180,6 +178,9 @@ if __name__ == '__main__':
     print('  1. Do not close this terminal window')
     print('  2. A browser screen will open with TikTok login screen')
     print('  3. Finish your TikTok login on the new browser screen and come back to this terminal screen')
+
+    driver = load_driver()
+    driver.maximize_window()
 
     driver.get("https://www.tiktok.com")
     time.sleep(2)
