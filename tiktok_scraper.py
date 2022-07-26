@@ -173,13 +173,16 @@ if __name__ == '__main__':
     driver = load_driver()
     driver.maximize_window()
     driver.get("https://www.tiktok.com")
+    time.sleep(2)
     ## Selenium clicks on Login Button to open login lightbox
     driver.find_element(By.XPATH,".//*[@data-e2e='top-login-button']").click()
+    time.sleep(.5)
     driver.find_element(By.XPATH,"//*[contains(text(), 'Use phone / email / username')]").click()
     driver.find_element(By.XPATH,"//*[contains(text(), 'Log in with email or username')]").click()
     driver.find_element(By.XPATH,".//*[@name='username']").send_keys("ramonres2022")
     driver.find_element(By.XPATH,".//*[@type='password']").send_keys("Ramones-2022")
     driver.find_element(By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']").click()
+    time.sleep(.5)
 
     print('\n\n  4. Complete Human verification on the browser')
     print('\n\n  5. This screen is paused so you can finish your login, press any key to continue')
