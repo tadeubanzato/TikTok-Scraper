@@ -25,7 +25,7 @@ import os, time, random, json, platform
 "Load BeautifulSoup Module"
 from bs4 import BeautifulSoup
 
-"Load General Classes"
+"Load Common Classes"
 from modules.general_classes import *
 
 import requests
@@ -99,16 +99,19 @@ def main(driver,keyword):
         # time.sleep(.5)
         pageSource = driver.page_source
         soup = BeautifulSoup(pageSource, 'html.parser')
-        postcontent = soup.find("div", {"data-e2e" : "browse-video-desc"}).text
-        commentsCount = soup.find("p", {"class" : "tiktok-1gseipw-PCommentTitle e1a7v7ak1"}).text
-        comments = soup.findAll("div", {"class" : "tiktok-16r0vzi-DivCommentItemContainer eo72wou0"})
-        commentUser = [comment.find('a')['href'].replace('/','') for comment in comments]
-        commentUserLink = [comment.find('a')['href'].replace('/','https://www.tiktok.com/') for comment in comments]
-        commentUserName = [comment.find("span", {"data-e2e" : "comment-username-1"}).text for comment in comments]
-        commentContent = [comment.find("p", {"data-e2e" : "comment-level-1"}).text for comment in comments]
-        commentLikes = [comment.find("span", {"data-e2e" : "comment-like-count"}).text for comment in comments]
-        # commentReplies = [comment.find("p", {"data-e2e" : "view-more-1"}).text.replace('View more replies (','').replace(')','') for comment in comments]
-        for comment in comments:
+
+        scraped = scrape(soup)
+
+        # postcontent = soup.find("div", {"data-e2e" : "browse-video-desc"}).text
+        # commentsCount = soup.find("p", {"class" : "tiktok-1gseipw-PCommentTitle e1a7v7ak1"}).text
+        # comments = soup.findAll("div", {"class" : "tiktok-16r0vzi-DivCommentItemContainer eo72wou0"})
+        # commentUser = [comment.find('a')['href'].replace('/','') for comment in comments]
+        # commentUserLink = [comment.find('a')['href'].replace('/','https://www.tiktok.com/') for comment in comments]
+        # commentUserName = [comment.find("span", {"data-e2e" : "comment-username-1"}).text for comment in comments]
+        # commentContent = [comment.find("p", {"data-e2e" : "comment-level-1"}).text for comment in comments]
+        # commentLikes = [comment.find("span", {"data-e2e" : "comment-like-count"}).text for comment in comments]
+
+        for comment in scraped.comments:
             try:
                 commentReplies.append(comment.find("p", {"data-e2e" : "view-more-1"}).text.replace('View more replies (','').replace(')',''))
             except:
@@ -119,7 +122,7 @@ def main(driver,keyword):
         df_user = pd.DataFrame(columns=['Userlink','originalPost','UserName','UserFollowing','UserFollowers','UserLikes','ReplyContent','Replylikes','replies'])
         df_posts = pd.DataFrame(columns=['posturl','postcontent','commentcounts'])
 
-        for (User,Link,Name,Content,Likes,Replies) in zip(commentUser,commentUserLink,commentUserName,commentContent,commentLikes,commentReplies):
+        for (User,Link,Name,Content,Likes,Replies) in zip(scraped.commentUser,scraped.commentUserLink,scraped.commentUserName,scraped.commentContent,scraped.commentLikes,commentReplies):
             print(f'     Scraping user {color.blue}{User}{color.endc} public information')
 
             # driver.get('https://www.tiktok.com/@tatianemorais211')
@@ -128,6 +131,7 @@ def main(driver,keyword):
 
             pageSource = driver.page_source
             soup = BeautifulSoup(pageSource, 'html.parser')
+
             try:
                 following = soup.find("strong", {"title" : "Following"}).text
             except:
@@ -155,10 +159,10 @@ def main(driver,keyword):
             df_user.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8-sig',index=False)
 
 
-        dict[url.split('/')[-1]] = {'postURL':url,'postcontent':postcontent,'commentsCount':commentsCount,'comments':commDict}
+        dict[url.split('/')[-1]] = {'postURL':url,'postcontent':scraped.postcontent,'commentsCount':scraped.commentsCount,'comments':commDict}
 
         ## BUILD CSV for POSTS List
-        df_posts.loc[len(df_posts.index)] = {'posturl':url,'postcontent':postcontent,'commentcounts':commentsCount}
+        df_posts.loc[len(df_posts.index)] = {'posturl':url,'postcontent':scraped.postcontent,'commentcounts':scraped.commentsCount}
         if os.path.exists(f'results/posts_list_{keyword}.csv'):
             dfdp = pd.read_csv(f'results/posts_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
             frames = [df_posts, dfdp]
