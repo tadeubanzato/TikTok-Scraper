@@ -173,31 +173,33 @@ def main(driver,keyword):
 if __name__ == '__main__':
 
     ## Clear screen and instructions on terminal window
+
+    driver = load_driver()
+    driver.maximize_window()
     os.system('clear')
+
     print(f'{color.green}Follow the bellow instruction{color.endc}\n')
     print('  1. Do not close this terminal window')
     print('  2. A browser screen will open with TikTok login screen')
     print('  3. Finish your TikTok login on the new browser screen and come back to this terminal screen')
 
-    driver = load_driver()
-    driver.maximize_window()
-
     driver.get("https://www.tiktok.com")
-    time.sleep(2)
+    time.sleep(3)
     ## Selenium clicks on Login Button to open login lightbox
     driver.find_element(By.XPATH,".//*[@data-e2e='top-login-button']").click()
-    time.sleep(.5)
+    time.sleep(.2)
     driver.find_element(By.XPATH,"//*[contains(text(), 'Use phone / email / username')]").click()
+    time.sleep(.2)
     driver.find_element(By.XPATH,"//*[contains(text(), 'Log in with email or username')]").click()
+    time.sleep(.2)
     driver.find_element(By.XPATH,".//*[@name='username']").send_keys("ramonres2022")
     driver.find_element(By.XPATH,".//*[@type='password']").send_keys("Ramones-2022")
     driver.find_element(By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']").click()
     time.sleep(.2)
 
     print('  4. Complete Human verification on the browser')
-    input(f'  5. {color.red}This screen is paused! Finish TikTok human authentication on the browser window{color.endc}')
+    print(f'  5. {color.red}Finish TikTok human authentication on the browser window{color.endc}')
 
-    os.system('clear')
     print('\nThe only next step will be to add your search criteria for us to start scraping')
     keyword = input(f'{color.green}Enter keyword or a hashtag to search and press enter:{color.endc} ')
 
