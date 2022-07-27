@@ -14,6 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as ec
 
 "Load Webdriver Installer"
 from webdriver_manager.chrome import ChromeDriverManager
@@ -184,18 +185,21 @@ if __name__ == '__main__':
     print('  3. Finish your TikTok login on the new browser screen and come back to this terminal screen')
 
     driver.get("https://www.tiktok.com")
-    time.sleep(3)
-    ## Selenium clicks on Login Button to open login lightbox
-    driver.find_element(By.XPATH,".//*[@data-e2e='top-login-button']").click()
     time.sleep(.2)
-    driver.find_element(By.XPATH,"//*[contains(text(), 'Use phone / email / username')]").click()
-    time.sleep(.2)
-    driver.find_element(By.XPATH,"//*[contains(text(), 'Log in with email or username')]").click()
-    time.sleep(.2)
-    driver.find_element(By.XPATH,".//*[@name='username']").send_keys("ramonres2022")
-    driver.find_element(By.XPATH,".//*[@type='password']").send_keys("Ramones-2022")
-    driver.find_element(By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']").click()
-    time.sleep(.2)
+
+    login_btn = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@data-e2e='top-login-button']")))
+    login_btn.click()
+    user_login = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,"//*[contains(text(), 'Use phone / email / username')]")))
+    user_login.click()
+    username = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,"//*[contains(text(), 'Log in with email or username')]")))
+    username.click()
+    user = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@name='username']")))
+    user.send_keys("ramonres2022")
+    password = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@type='password']")))
+    password.send_keys("Ramones-2022")
+    login = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']")))
+    login.click()
+
 
     print('  4. Complete Human verification on the browser')
     print(f'  5. {color.red}Finish TikTok human authentication on the browser window{color.endc}')
