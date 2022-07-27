@@ -100,16 +100,8 @@ def main(driver,keyword):
         pageSource = driver.page_source
         soup = BeautifulSoup(pageSource, 'html.parser')
 
+        ## Load Class
         scraped = scrape(soup)
-
-        # postcontent = soup.find("div", {"data-e2e" : "browse-video-desc"}).text
-        # commentsCount = soup.find("p", {"class" : "tiktok-1gseipw-PCommentTitle e1a7v7ak1"}).text
-        # comments = soup.findAll("div", {"class" : "tiktok-16r0vzi-DivCommentItemContainer eo72wou0"})
-        # commentUser = [comment.find('a')['href'].replace('/','') for comment in comments]
-        # commentUserLink = [comment.find('a')['href'].replace('/','https://www.tiktok.com/') for comment in comments]
-        # commentUserName = [comment.find("span", {"data-e2e" : "comment-username-1"}).text for comment in comments]
-        # commentContent = [comment.find("p", {"data-e2e" : "comment-level-1"}).text for comment in comments]
-        # commentLikes = [comment.find("span", {"data-e2e" : "comment-like-count"}).text for comment in comments]
 
         for comment in scraped.comments:
             try:
@@ -182,11 +174,11 @@ if __name__ == '__main__':
     driver = load_driver()
     driver.maximize_window()
     os.system('clear')
+    keyword = input(f'{color.green}Enter keyword or a hashtag to search and press enter:{color.endc} ')
 
     print(f'{color.green}Follow the bellow instruction{color.endc}\n')
     print('  1. Do not close this terminal window')
-    print('  2. A browser screen will open with TikTok login screen')
-    print('  3. Finish your TikTok login on the new browser screen and come back to this terminal screen')
+    print('  2. A browser screen will open with TikTok login')
 
     driver.get("https://www.tiktok.com")
     time.sleep(.2)
@@ -204,12 +196,19 @@ if __name__ == '__main__':
     login = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']")))
     login.click()
 
+    print(f'  3. {color.red}Finish TikTok human authentication on the browser window{color.endc}')
 
-    print('  4. Complete Human verification on the browser')
-    print(f'  5. {color.red}Finish TikTok human authentication on the browser window{color.endc}')
+    time.sleep(.5)
 
+    loged = 'False'
+    while not loged:
+        try:
+            WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,"//*[contains(text(), 'Login Successful')]")))
+            loged = True
+        except:
+            loged = False
     print('\nThe only next step will be to add your search criteria for us to start scraping')
-    keyword = input(f'{color.green}Enter keyword or a hashtag to search and press enter:{color.endc} ')
+
 
     json_object = main(driver,keyword)
 
