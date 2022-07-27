@@ -207,7 +207,7 @@ if __name__ == '__main__':
             loged = True
         except:
             loged = False
-    print('\nThe only next step will be to add your search criteria for us to start scraping')
+    # print('\nThe only next step will be to add your search criteria for us to start scraping')
 
 
     json_object = main(driver,keyword)
