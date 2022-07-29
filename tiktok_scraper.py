@@ -32,6 +32,12 @@ import requests
 import json
 import pandas as pd
 
+from colorama import Fore, Back, Style
+from colorama import init
+init()
+
+osID = platform.system().lower()
+
 def load_driver():
     ### Using Selenium as a puppeteer for amazon scraper
     options = Options()
@@ -49,14 +55,14 @@ def load_driver():
     # chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
 
     ## When on mac load MAC DRIVER
-    if 'darwin' in platform.system().lower():
+    if 'darwin' in osID:
         return webdriver.Chrome(ChromeDriverManager().install(), options=options)
     ## When on linux load LINUX DRIVER
-    if 'linux' in platform.system().lower():
+    if 'linux' in osID:
         return webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=options)
     ## When on linux load LINUX DRIVER
-    if 'windows' in platform.system().lower():
-        return webdriver.Chrome(executable_path="C:\path\to\chromedriver.exe", options=options)
+    if 'windows' in osID:
+        return webdriver.Chrome(executable_path="D:\GEPHI\ARQUIVOSRLINUX\homeR\chromedriver.exe", options=options)
 
 def main(driver,keyword):
     if '#' in keyword:
@@ -71,9 +77,9 @@ def main(driver,keyword):
     delay = 3 # seconds
     try:
         myElem = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'IdOfMyElement')))
-        print(f'{color.yellow}Page is ready!{color.endc}')
+        print(f'{Fore.YELLOW}Page is ready!{Style.RESET_ALL}')
     except TimeoutException:
-        print(f'{color.yellow}Page is ready!{color.endc}')
+        print(f'{Fore.YELLOW}Page is ready!{Style.RESET_ALL}')
 
     pageSource = driver.page_source
     soup = BeautifulSoup(pageSource, 'html.parser')
@@ -87,12 +93,12 @@ def main(driver,keyword):
 
     # allVids = videoList.findAll("div", {"class": "tiktok-1soki6-DivItemContainerForSearch e19c29qe9"})
     urls = [vid.find("a")['href'] for vid in allVids]
-    print(f'\nFound total of {color.red}{len(urls)}{color.endc} videos on this keyword.\n{color.green}Start scraping{color.endc}')
+    print(f'\nFound total of {Fore.RED}{len(urls)}{Style.RESET_ALL} videos on this keyword.\n{Fore.GREEN}Start scraping{Style.RESET_ALL}')
 
     dict = {}
     commentReplies = []
     for url in urls:
-        print(f'\n{color.blue}Scraping video post ID:{color.endc} {url.split("/")[-1]}')
+        print(f'\n{Fore.BLUE}Scraping video post ID:{Style.RESET_ALL} {url.split("/")[-1]}')
 
         # url = "https://www.tiktok.com/@bolsonaromessiasjair/video/7120216471208283397"
         driver.get(url)
@@ -115,7 +121,7 @@ def main(driver,keyword):
         df_posts = pd.DataFrame(columns=['posturl','postcontent','commentcounts'])
 
         for (User,Link,Name,Content,Likes,Replies) in zip(scraped.commentUser,scraped.commentUserLink,scraped.commentUserName,scraped.commentContent,scraped.commentLikes,commentReplies):
-            print(f'     Scraping user {color.blue}{User}{color.endc} public information')
+            print(f'     Scraping user {Fore.BLUE}{User}{Style.RESET_ALL} public information')
 
             # driver.get('https://www.tiktok.com/@tatianemorais211')
             driver.get(Link)
@@ -139,44 +145,63 @@ def main(driver,keyword):
 
             commDict[User] = {'Userlink':Link, 'UserName':Name, 'UserFollowing':following, 'UserFollowers':followers, 'UserLikes':likes, 'ReplyContent':Content, 'Replylikes':Likes, 'replies':Replies}
             df_user.loc[len(df_user.index)] = {'Userlink':Link, 'originalPost':url.split('/')[-1], 'UserName':Name, 'UserFollowing':following, 'UserFollowers':followers, 'UserLikes':likes, 'ReplyContent':Content, 'Replylikes':Likes, 'replies':Replies}
-            # print(df)
+
+            save_csv(df_user,f'user_list_{keyword}.csv')
 
         ## BUILD CSV for USERS List
-        if os.path.exists(f'results/user_list_{keyword}.csv'):
-            saved_df = pd.read_csv(f'results/user_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
-            frames = [df_user, saved_df]
-            df_final = pd.concat(frames)
-            df_final.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8-sig',index=False)
-        else:
-            df_user.to_csv(f'results/user_list_{keyword}.csv', encoding='utf-8-sig',index=False)
+        # if os.path.exists(f'results/user_list_{keyword}.csv'):
+
+        #
+        # if os.path.exists(os.path.join('results', f'user_list_{keyword}.csv')):
+        #     saved_df = pd.read_csv(os.path.join('results', f'user_list_{keyword}.csv'), on_bad_lines='skip').drop_duplicates() #Open file
+        #     frames = [df, saved_df]
+        #     df_final = pd.concat(frames)
+        #     df_final.to_csv(os.path.join('results', f'user_list_{keyword}.csv'), encoding='utf-8-sig',index=False)
+        # else:
+        #     df_user.to_csv(os.path.join('results', f'user_list_{keyword}.csv'), encoding='utf-8-sig',index=False)
 
 
         dict[url.split('/')[-1]] = {'postURL':url,'postcontent':scraped.postcontent,'commentsCount':scraped.commentsCount,'comments':commDict}
 
-        ## BUILD CSV for POSTS List
         df_posts.loc[len(df_posts.index)] = {'posturl':url,'postcontent':scraped.postcontent,'commentcounts':scraped.commentsCount}
-        if os.path.exists(f'results/posts_list_{keyword}.csv'):
-            dfdp = pd.read_csv(f'results/posts_list_{keyword}.csv', on_bad_lines='skip').drop_duplicates() #Open file
-            frames = [df_posts, dfdp]
-            dfp = pd.concat(frames)
-            dfp.to_csv(f'results/posts_list_{keyword}.csv', encoding='utf-8-sig',index=False)
-        else:
-            df_posts.to_csv(f'results/posts_list_{keyword}.csv', encoding='utf-8-sig',index=False)
+        save_csv(df_posts,f'posts_list_{keyword}.csv')
+
+
+        ## BUILD CSV for POSTS List
+
+        # # if os.path.exists(f'results/posts_list_{keyword}.csv'):
+        # if os.path.exists(os.path.join('results', f'posts_list_{keyword}.csv')):
+        #     dfdp = pd.read_csv(os.path.join('results', f'posts_list_{keyword}.csv'), on_bad_lines='skip').drop_duplicates() #Open file
+        #     frames = [df_posts, dfdp]
+        #     dfp = pd.concat(frames)
+        #     dfp.to_csv(os.path.join('results', f'posts_list_{keyword}.csv'), encoding='utf-8-sig',index=False)
+        # else:
+        #     df_posts.to_csv(os.path.join('results', f'posts_list_{keyword}.csv'), encoding='utf-8-sig',index=False)
 
     # json_object = json.dumps(dict, ensure_ascii=False, indent = 4)
+    posts_clean = pd.read_csv(os.path.join('results', f'posts_list_{keyword}.csv'), on_bad_lines='skip').drop_duplicates() #Open file
+    posts_clean.to_csv(os.path.join('results', f'posts_list_{keyword}.csv'), encoding='utf-8-sig',index=False)
+
+    users_clean = pd.read_csv(os.path.join('results', f'user_list_{keyword}.csv'), on_bad_lines='skip').drop_duplicates() #Open file
+    users_clean.to_csv(os.path.join('results', f'user_list_{keyword}.csv'), encoding='utf-8-sig',index=False)
+
     return json.dumps(dict, ensure_ascii=False, indent = 4)
 
 
 if __name__ == '__main__':
 
     ## Clear screen and instructions on terminal window
+    if 'windows' in platform.system().lower():
+        os.system('cls')
+    else:
+        os.system('clear')
+
+    keyword = input(f'{Fore.GREEN}Enter keyword or a hashtag to search and press enter:{Style.RESET_ALL} ')
 
     driver = load_driver()
     driver.maximize_window()
-    os.system('clear')
-    keyword = input(f'{color.green}Enter keyword or a hashtag to search and press enter:{color.endc} ')
 
-    print(f'{color.green}Follow the bellow instruction{color.endc}\n')
+    print(f'{Fore.GREEN}Follow the bellow instruction{Style.RESET_ALL}\n')
     print('  1. Do not close this terminal window')
     print('  2. A browser screen will open with TikTok login')
 
@@ -196,7 +221,7 @@ if __name__ == '__main__':
     login = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']")))
     login.click()
 
-    print(f'  3. {color.red}Finish TikTok human authentication on the browser window{color.endc}')
+    print(f'  3. {Fore.RED}Start runing scraper setup - If asked, perform human authentication{Style.RESET_ALL}')
 
     time.sleep(.5)
 
@@ -213,6 +238,9 @@ if __name__ == '__main__':
     json_object = main(driver,keyword)
 
     ## Save Json File export
-    jsonFile = open(f'results/json/data_{keyword}.json', 'w')
+    # os.path.join('results', 'json', f'data_{keyword}.json')
+    # jsonFile = open(f'results/json/data_{keyword}.json', 'w')
+    jsonFile = os.path.join('results', 'json', f'data_{keyword}.json')
+
     jsonFile.write(json_object)
     jsonFile.close()

@@ -1,22 +1,27 @@
-import colorama
 from types import SimpleNamespace
 import json
+import os
+import pandas as pd
 
-######### COLORAMA CLASS #########
-class color:
-    blue = '\033[94m'
-    green = '\033[92m'
-    yellow = '\033[93m'
-    red = '\033[91m'
-    endc = '\033[0m'
-    bold = '\033[1m'
-    underline = '\033[4m'
+def save_csv(df,file):
+    if os.path.exists(os.path.join('results', file)):
+        saved_df = pd.read_csv(os.path.join('results', file), on_bad_lines='skip').drop_duplicates() #Open file
+        frames = [df, saved_df]
+        df_final = pd.concat(frames)
+        df_final.to_csv(os.path.join('results', file), encoding='utf-8-sig',index=False)
+    else:
+        df.to_csv(os.path.join('results', file), encoding='utf-8-sig',index=False)
+
 
 
 ## NEW COMMON CLASS FOR ELEMENT
 class scrape:
     def __init__(self, soup):
-        tiktok = json.load(open('modules/tiktok_elements.json'), object_hook=lambda d: SimpleNamespace(**d))
+
+        # os.path.join('modules', 'tiktok_elements.json')
+        # tiktok = json.load(open(f'modules/tiktok_elements.json'), object_hook=lambda d: SimpleNamespace(**d))
+        elements = os.path.join('modules', 'tiktok_elements.json')
+        tiktok = json.load(open(elements), object_hook=lambda d: SimpleNamespace(**d))
 
         # self.postcontent = soup.find(tiktok.postcontent.element, {"data-e2e" : "browse-video-desc"}).text
         self.postcontent = soup.find(tiktok.postcontent.element, {tiktok.postcontent.attribute : tiktok.postcontent.attval}).text
