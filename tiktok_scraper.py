@@ -215,9 +215,9 @@ if __name__ == '__main__':
     username = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,"//*[contains(text(), 'Log in with email or username')]")))
     username.click()
     user = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@name='username']")))
-    user.send_keys("ramonres2022")
+    user.send_keys("ADD USER NAME HERE")
     password = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@type='password']")))
-    password.send_keys("Ramones-2022")
+    password.send_keys("ADD PASSWORD HERE")
     login = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']")))
     login.click()
 

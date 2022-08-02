@@ -3,3 +3,4 @@
 *.csv
 .DS_Store
 __pycache__/
+tiktok_scraper_loged.py
