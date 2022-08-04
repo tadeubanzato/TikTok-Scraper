@@ -22,6 +22,7 @@ Folder structure will look like this:
 ```
 ### .env file content must contain:
 `username = your_tiktok_username`
+
 `password = your_tiktok_password`
 
 
