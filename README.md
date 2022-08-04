@@ -21,9 +21,8 @@ Folder structure will look like this:
 └── tiktok_scraper_loged.py
 ```
 ### .env file content must contain:
-username = your_tiktok_username
-
-password = your_tiktok_password
+`username = your_tiktok_username`
+`password = your_tiktok_password`
 
 
 # General Script Instillation
