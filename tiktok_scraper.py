@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from dotenv import load_dotenv
+
 "Load Selenium for pupeteering"
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -37,6 +39,9 @@ from colorama import init
 init()
 
 osID = platform.system().lower()
+
+def configure():
+    load_dotenv()
 
 def load_driver():
     ### Using Selenium as a puppeteer for amazon scraper
@@ -190,6 +195,8 @@ def main(driver,keyword):
 
 if __name__ == '__main__':
 
+    configure()
+
     ## Clear screen and instructions on terminal window
     if 'windows' in platform.system().lower():
         os.system('cls')
@@ -215,9 +222,9 @@ if __name__ == '__main__':
     username = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,"//*[contains(text(), 'Log in with email or username')]")))
     username.click()
     user = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@name='username']")))
-    user.send_keys("ADD USER NAME HERE")
+    user.send_keys(os.getenv('username'))
     password = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@type='password']")))
-    password.send_keys("ADD PASSWORD HERE")
+    password.send_keys(os.getenv('password'))
     login = WebDriverWait(driver, 10).until(ec.visibility_of_element_located((By.XPATH,".//*[@class='e1w6iovg0 tiktok-15aypwy-Button-StyledButton ehk74z00']")))
     login.click()
 

@@ -1,6 +1,30 @@
 # TikTok Scraper
 Since TikTok API is in constant change and I'm having issues using some of the TikTok APIs and Python modules available in the market I've built this scraper to help me do some of the data acquistion from their platform.\
 
+# General Setup
+You can either download the Zip file from github or simply clone the repository to your environment.
+This script requires a TikTok account login, once you create that login you should create a `.env` file in the main folder of the project to add your credentials.
+Folder structure will look like this:
+```bash
+.
+├── README.md
+├── .env
+├── modules
+│   ├── general_classes.py
+│   └── tiktok_elements.json
+├── requirements.txt
+├── results
+│   ├── json
+│   ├── posts_list_#hashtag.csv
+│   └── user_list_#hashtag.csv
+├── tiktok_scraper.py
+└── tiktok_scraper_loged.py
+```
+### .env file content must contain:
+username = your_tiktok_username
+password = your_tiktok_password
+
+
 # General Script Instillation
 1. Install requirements by runing the python command `pip3 install -r requirements.txt`
 2. After requirements installation run `python3 tiktok_scraper.py`
@@ -55,3 +79,4 @@ As a result the script will save a Json file with the following Swagger:
 
 Done
 - [X] Add Pandas and overall CSV export support
+- [X] Added dotenv support
