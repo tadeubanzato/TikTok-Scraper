@@ -1,0 +1,40 @@
+{
+   "postcontent":{
+      "element":"div",
+      "attribute":"data-e2e",
+      "attval":"browse-video-desc"
+   },
+   "commentsCount":{
+      "element":"p",
+      "attribute":"class",
+      "attval":"tiktok-1gseipw-PCommentTitle e1a7v7ak1"
+   },
+   "comments":{
+      "element":"div",
+      "attribute":"class",
+      "attval":"tiktok-16r0vzi-DivCommentItemContainer eo72wou0"
+   },
+   "commentUser":{
+      "element":"a",
+      "attribute":"href"
+   },
+   "commentUserLink":{
+      "element":"a",
+      "attribute":"href"
+   },
+   "commentUserName":{
+      "element":"span",
+      "attribute":"data-e2e",
+      "attval":"comment-username-1"
+   },
+   "commentContent":{
+      "element":"p",
+      "attribute":"data-e2e",
+      "attval":"comment-level-1"
+   },
+   "commentLikes":{
+      "element":"p",
+      "attribute":"data-e2e",
+      "attval":"comment-like-count"
+   }
+}
