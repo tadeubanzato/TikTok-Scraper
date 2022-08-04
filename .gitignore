@@ -6,3 +6,5 @@ __pycache__/
 tiktok_scraper_loged.py
 .env
 !tiktok_elements.json
+!posts_list_#hashtag.csv
+!user_list_#hashtag.csv
