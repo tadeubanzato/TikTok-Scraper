@@ -1,10 +1,14 @@
-# Code coverage
+### Ignore file type
 *.json
 *.csv
 .DS_Store
-__pycache__/
-tiktok_scraper_loged.py
 .env
+
+### Ignore folders
+__pycache__/
+
+### Ignore Exceptions
 !tiktok_elements.json
 !posts_list_#hashtag.csv
 !user_list_#hashtag.csv
+!data_#hashtag.json
