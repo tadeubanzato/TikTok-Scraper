@@ -17,8 +17,7 @@ Folder structure will look like this:
 │   ├── json
 │   ├── posts_list_#hashtag.csv
 │   └── user_list_#hashtag.csv
-├── tiktok_scraper.py
-└── tiktok_scraper_loged.py
+└── tiktok_scraper.py
 ```
 ### .env file content must contain:
 `username = your_tiktok_username`
