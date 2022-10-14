@@ -1,0 +1,24 @@
+Device Purchase Messaging:
+
+
+
+CONTROL-M/MFT INTAKE FORM
+ 	 
+Environment: Azure 
+External or Internal Transfer: External
+Source Server Name: 
+Target Server Name: 
+
+Source Account Details: 
+The prefered way is to use (ssh key provided by ctm team). If not a username and password must be provided.
+ 
+Target Account Details: 
+The prefered way is to use (ssh key provided by ctm team). If not a username and password must be provided.
+ 
+Source File Path: 
+Target File path: 
+File Pattern: 
+File Encryption/Decryption Required: Yes PGP key will be provided
+Frequency: Daily
+Notifications For Late File arrivals: 
+Notifications for Late or  Failed Transfers: 
